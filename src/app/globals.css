@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ----------
+   Palette: warm paper, deep green-black ink, one green accent.
+   Spacing: Tailwind's 4px base, used only in 8px steps (2, 4, 6, 8, 12, 16, 24...). */
+:root {
+  --paper: #f6f3ec;
+  --card: #fbfaf6;
+  --ink: #111a17;
+  --muted: #55605b; /* 5.9:1 on paper */
+  --line: #ddd8cb;
+  --accent: #0b7a5c; /* 5.1:1 on paper, 5.3:1 white-on-accent */
+  --accent-strong: #095f48;
+  --accent-soft: #dcebe3;
+  --warn: #9a5b12;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-warn: var(--warn);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  /* Type scale */
+  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-display--line-height: 1.04;
+  --text-h2: clamp(2rem, 4vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.25;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Range inputs */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+  width: 100%;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 4px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--accent);
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 4px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--accent);
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Background finance animation ---------- */
+.fx-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: fx-draw 14s ease-in-out infinite;
+}
+.fx-candle {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: fx-candle 5s ease-in-out infinite;
+}
+@keyframes fx-draw {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  8% { opacity: 1; }
+  65% { stroke-dashoffset: 0; opacity: 1; }
+  90% { stroke-dashoffset: 0; opacity: 0; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes fx-candle {
+  0%, 100% { transform: scaleY(0.75); }
+  50% { transform: scaleY(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fx-line { animation: none; stroke-dashoffset: 0; }
+  .fx-candle { animation: none; transform: none; }
+}
